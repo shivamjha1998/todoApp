@@ -10,7 +10,7 @@ interface Todo {
 interface Notification {
   id: string;
   message: string;
-  type: "added" | "completed";
+  type: "added" | "completed" | "deleted";
 }
 
 export default function App() {
@@ -20,6 +20,7 @@ export default function App() {
     "All" | "Done" | "Undone"
   >("All");
   const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [menuOpen, setMenuOpen] = useState<string | null>(null);
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -52,10 +53,27 @@ export default function App() {
     });
   }
 
+  function toggleMenu(id: string) {
+    setMenuOpen(menuOpen === id ? null : id);
+  }
+
   function deleteTodo(id: string) {
-    setTodos((currentTodos) => {
-      return currentTodos.filter((todo) => todo.id !== id);
-    });
+    const deletedTodo = todos.find((todo) => todo.id === id);
+    if (!deletedTodo) return;
+
+    const isConfirmed = window.confirm(
+      `Are you sure you want to delete: ${deletedTodo.title}?`
+    );
+
+    if (isConfirmed) {
+      setTodos((currentTodos) => {
+        return currentTodos.filter((todo) => todo.id !== id);
+      });
+
+      setMenuOpen(null);
+
+      showNotification(`Deleted: ${deletedTodo.title}`, "deleted");
+    }
   }
 
   let completedPercentage;
@@ -71,7 +89,10 @@ export default function App() {
     return true;
   });
 
-  function showNotification(message: string, type: "added" | "completed") {
+  function showNotification(
+    message: string,
+    type: "added" | "completed" | "deleted"
+  ) {
     const newNotification = {
       id: crypto.randomUUID(),
       message,
@@ -92,30 +113,22 @@ export default function App() {
   }
 
   return (
-    <>
+    <div className="app-card">
       <div className="progress-container">
-        <div className="progress-text">Progress ({completedPercentage}%)</div>
-        <div
-          className={`progress-bar ${
-            completedPercentage === 100 ? "complete" : ""
-          }`}
-          style={{ width: `${completedPercentage}%` }}
-        />
-      </div>
-      <form onSubmit={handleSubmit} className="new-item-form">
-        <div className="form-row">
-          <label htmlFor="item">New Item</label>
-          <input
-            value={newItem}
-            onChange={(e) => setNewItem(e.target.value)}
-            type="text"
-            id="item"
+        <div className="progress-text">Progress</div>
+        <div className="progress-bar-container">
+          <div
+            className={`progress-bar ${
+              completedPercentage === 100 ? "complete" : ""
+            }`}
+            style={{ width: `${completedPercentage}%` }}
           />
         </div>
-        <button className="btn">Add</button>
-      </form>
+        <div>{todos.filter((t) => t.completed).length} completed</div>
+      </div>
+
       <div className="header-container">
-        <h1 className="header">Todo List</h1>
+        <h1 className="header">To-dos</h1>
         <select
           value={selectedFilter}
           onChange={(e) =>
@@ -128,28 +141,51 @@ export default function App() {
           <option value="Undone">Undone</option>
         </select>
       </div>
+
+      <form onSubmit={handleSubmit} className="new-item-form">
+        <div className="form-row">
+          <div className="input-with-button">
+            <input
+              value={newItem}
+              onChange={(e) => setNewItem(e.target.value)}
+              type="text"
+              id="item"
+              placeholder="Add your to-do…"
+            />
+            <button className="btn inside-button" type="submit">
+              Add
+            </button>
+          </div>
+        </div>
+      </form>
+
       <ul className="list">
-        {filteredTodos.map((todo) => {
-          return (
-            <li key={todo.id}>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={todo.completed}
-                  onChange={(e) => toggleTodo(todo.id, e.target.checked)}
-                />
-                {todo.title}
-              </label>
+        {filteredTodos.map((todo) => (
+          <li key={todo.id} className="todo-item">
+            <label>
+              <input
+                type="checkbox"
+                checked={todo.completed}
+                onChange={(e) => toggleTodo(todo.id, e.target.checked)}
+              />
+              <span>{todo.title}</span>
+            </label>
+
+            <div className="menu-container">
               <button
-                onClick={() => deleteTodo(todo.id)}
-                className="btn btn-danger"
-              >
-                Delete
-              </button>
-            </li>
-          );
-        })}
+                className="menu-button"
+                onClick={() => toggleMenu(todo.id)}
+              />
+              {menuOpen === todo.id && (
+                <div className="dropdown-menu">
+                  <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+                </div>
+              )}
+            </div>
+          </li>
+        ))}
       </ul>
+
       <div className="notifications-container">
         {notifications.map((notification) => (
           <div
@@ -160,6 +196,6 @@ export default function App() {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 }
