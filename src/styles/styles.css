@@ -86,7 +86,7 @@ body {
 
 .btn {
   position: relative;
-  overflow: hidden; /* Essential for containing the pseudo-element */
+  overflow: hidden;
   background: #536e92;
   border: none;
   border-radius: 99999px;
@@ -192,7 +192,7 @@ body {
 }
 
 .notification-added {
-  border: 1.5px solid #f38321;
+  border: 1.5px solid #536e92;
 }
 
 .notification-completed {

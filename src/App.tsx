@@ -1,7 +1,7 @@
 import { useState } from "react";
 import SimpleToDo from "./SimpleToDo";
 import GamifiedView from "./GamifiedView";
-import "./styles.css";
+import "./styles/styles.css";
 
 export interface Todo {
   id: string;
@@ -90,7 +90,6 @@ export default function App() {
             position: "absolute",
             inset: 0,
             zIndex: 1,
-            // If you want it behind, no pointer events
             pointerEvents: minimized ? "auto" : "none",
           }}
         >
@@ -102,9 +101,7 @@ export default function App() {
         style={{
           position: "relative",
           zIndex: 2,
-          // If the game is shown, slightly reduce opacity
           opacity: showGame ? 0.95 : 1,
-          // If minimized, hide it visually (or shrink it)
           display: minimized ? "none" : "block",
           transition: "opacity 0.3s",
         }}
