@@ -45,7 +45,7 @@ export default function SimpleToDo({
         onChangeFilter={(filter) => setSelectedFilter(filter)}
       />
 
-      <NewItemForm onAddTodo={onAddTodo} />
+      <NewItemForm onAddTodo={onAddTodo} showNotification={showNotification} />
 
       <TodoList
         todos={todos}

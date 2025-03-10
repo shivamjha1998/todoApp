@@ -2,14 +2,24 @@ import { useState } from "react";
 
 interface NewItemFormProps {
   onAddTodo: (title: string) => void;
+  showNotification: (
+    message: string,
+    type: "added" | "completed" | "deleted"
+  ) => void;
 }
 
-export default function NewItemForm({ onAddTodo }: NewItemFormProps) {
+export default function NewItemForm({
+  onAddTodo,
+  showNotification,
+}: NewItemFormProps) {
   const [newItem, setNewItem] = useState("");
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!newItem.trim()) return;
+    if (!newItem.trim()) {
+      showNotification(`'text' is empty`, "deleted");
+      return;
+    }
 
     onAddTodo(newItem.trim());
     setNewItem("");
