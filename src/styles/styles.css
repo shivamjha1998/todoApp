@@ -77,9 +77,9 @@ body {
 }
 
 .new-item-form input[type="text"] {
-  border: #ccc;
+  border: none;
   border-radius: 99999px;
-  padding: 1rem;
+  padding: 1rem 4.5rem 1rem 1.5rem;
   font-size: 1rem;
   display: block;
 }
@@ -126,18 +126,18 @@ body {
 .input-with-button {
   position: relative;
   width: 100%;
+  border: none;
 }
 
 .input-with-button input {
   width: 100%;
-  padding-right: 90px;
   box-sizing: border-box;
 }
 
 .inside-button {
   position: absolute;
   top: 5px;
-  right: 5px;
+  right: 0.5rem;
   bottom: 5px;
   padding: 0 1rem;
 }
@@ -189,6 +189,18 @@ body {
   background-color: #fff;
   animation: slideIn 0.3s ease-out;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+  max-width: 600px;
+  word-wrap: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
+  line-height: 1.4;
+  width: fit-content;
+}
+
+@media (max-width: 480px) {
+  .notification {
+    max-width: 50vw;
+  }
 }
 
 .notification-added {
@@ -217,8 +229,9 @@ body {
 .menu-container {
   display: flex;
   position: relative;
-  margin-left: auto;
+  margin-left: 1rem;
   flex-shrink: 0;
+  align-self: center;
 }
 
 .menu-button {
@@ -282,7 +295,9 @@ body {
   align-items: center;
   font-size: 20px;
   margin-bottom: 0.5em;
-  padding-left: 1em;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  padding: 0 1em;
   border-radius: 999999px;
 }
 
@@ -290,6 +305,8 @@ body {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  flex: 1;
+  min-width: 0;
 }
 
 .todo {
@@ -299,6 +316,8 @@ body {
   cursor: pointer;
   flex-grow: 1;
   margin-right: 1rem;
+  min-width: 0;
+  flex: 1;
 }
 
 /* Hide actual checkbox */
@@ -312,6 +331,10 @@ body {
 .todo__text {
   color: #1b4a4e;
   transition: all calc(var(--duration) / 2) linear calc(var(--duration) / 2);
+  word-break: break-word;
+  width: 100%;
+  max-width: calc(100% - 60px);
+  min-width: 0;
 }
 
 .todo__icon {
