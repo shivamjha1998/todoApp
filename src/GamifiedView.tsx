@@ -16,37 +16,9 @@ interface GamifiedViewProps {
 
 export default function GamifiedView({ todos }: GamifiedViewProps) {
   return (
-    <div
-      style={{
-        position: "absolute",
-        bottom: 0,
-        left: "50%",
-        transform: "translateX(-50%)",
-        width: "100%",
-        height: "100vh",
-        overflow: "hidden",
-      }}
-    >
-      <div
-        style={{
-          position: "relative",
-          width: "100%",
-          height: "100%",
-        }}
-      >
-        <img
-          src={TreeSVG}
-          alt="Tree"
-          style={{
-            position: "absolute",
-            left: 0,
-            top: 0,
-            width: "100%",
-            height: "100%",
-            objectFit: "contain",
-            zIndex: 1,
-          }}
-        />
+    <div className="game-container">
+      <div className="tree-container">
+        <img src={TreeSVG} alt="Tree" className="tree" />
 
         {todos.map((todo) => {
           const birdImage = BIRD_ASSETS[todo.birdIndex];
@@ -58,15 +30,13 @@ export default function GamifiedView({ todos }: GamifiedViewProps) {
               src={birdImage}
               alt="Bird"
               className={`bird ${isCompleted ? "bird-static" : ""}`}
-              style={{
-                position: "absolute",
-                left: `${todo.positionX}%`,
-                top: `${todo.positionY}%`,
-                width: "10rem",
-                opacity: isCompleted ? 0.5 : 1,
-                transition: "opacity 0.5s",
-                zIndex: 2,
-              }}
+              style={
+                {
+                  "--bird-left": `${todo.positionX}%`,
+                  "--bird-top": `${todo.positionY}%`,
+                  "--bird-opacity": isCompleted ? 0.5 : 1,
+                } as React.CSSProperties
+              }
             />
           );
         })}
