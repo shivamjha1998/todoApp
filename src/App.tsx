@@ -138,13 +138,7 @@ export default function App() {
   return (
     <div style={{ position: "relative", minHeight: "100vh" }}>
       {showGame && (
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            zIndex: 1,
-          }}
-        >
+        <div className="app-game-container">
           <GamifiedView todos={todos} />
         </div>
       )}

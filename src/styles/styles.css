@@ -19,6 +19,12 @@ body {
   overflow: hidden;
 }
 
+.app-game-container {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
 .app-card {
   background: #f5f5f5;
   max-width: 720px;
