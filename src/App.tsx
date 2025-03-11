@@ -90,7 +90,6 @@ export default function App() {
             position: "absolute",
             inset: 0,
             zIndex: 1,
-            pointerEvents: minimized ? "auto" : "none",
           }}
         >
           <GamifiedView todos={todos} />
@@ -101,7 +100,7 @@ export default function App() {
         style={{
           position: "relative",
           zIndex: 2,
-          opacity: showGame ? 0.95 : 1,
+          opacity: showGame ? 0.8 : 1,
           display: minimized ? "none" : "block",
           transition: "opacity 0.3s",
         }}
@@ -115,15 +114,14 @@ export default function App() {
           showNotification={showNotification}
         />
       </div>
-      <div style={{ position: "fixed", bottom: 20, left: 20, zIndex: 999 }}>
+      <div className="game-button">
         <button className="btn" onClick={() => setShowGame(!showGame)}>
           {showGame ? "Hide Game" : "Show Game"}
         </button>
         {showGame && (
           <button
             onClick={handleMinimizeToggle}
-            style={{ marginLeft: "1rem" }}
-            className="btn"
+            className="btn game-todo-button"
           >
             {minimized ? "Show To-Do" : "Minimize To-Do"}
           </button>
