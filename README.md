@@ -1,5 +1,7 @@
 # Gamified To-Do App
 
+**Online/Deployed App Link: [https://shivamjha1998.github.io/todoApp/](https://shivamjha1998.github.io/todoApp/)**
+
 This is a **React + Vite + TypeScript** to-do application with a **gamified** twist:
 
 - Each task is visualized by a **bird** perched on a virtual tree.
