@@ -1,28 +1,52 @@
 .game-container {
-  position: absolute;
+  position: fixed;
   bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
   width: 100%;
-  height: 100vh;
-  overflow: hidden;
+  height: auto;
+  overflow: visible;
+  z-index: 1;
 }
 
 .tree-container {
-  position: absolute;
+  position: relative;
   width: 100%;
-  height: 100%;
+  height: 0;
+  padding-bottom: 56.25%;
 }
 
 .tree {
   position: absolute;
   bottom: 0;
-  left: 0;
-  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: 100%;
-  height: 100%;
+  max-width: 800px;
+  height: auto;
   object-fit: contain;
+  object-position: bottom;
   z-index: 1;
+}
+
+@media (max-width: 768px) {
+  .tree {
+    max-width: 600px;
+    bottom: -2%;
+  }
+}
+
+@media (max-width: 480px) {
+  .tree {
+    max-width: 400px;
+    bottom: -5%;
+  }
+}
+
+@media (max-width: 360px) {
+  .tree {
+    max-width: 320px;
+    bottom: -8%;
+  }
 }
 
 @keyframes wiggle {
