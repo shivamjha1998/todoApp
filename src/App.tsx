@@ -26,7 +26,7 @@ export default function App() {
   const [minimized, setMinimized] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const [username, setUsername] = useState("shivam");
+  const username = "shivam";
 
   useEffect(() => {
     if (!validateUsername(username)) {
@@ -153,7 +153,7 @@ export default function App() {
         style={{
           position: "relative",
           zIndex: 2,
-          opacity: showGame ? 0.8 : 1,
+          opacity: showGame ? 0.85 : 1,
           display: minimized ? "none" : "block",
           transition: "opacity 0.3s",
         }}
