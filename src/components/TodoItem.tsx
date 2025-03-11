@@ -3,7 +3,7 @@ import { Todo } from "../App";
 
 interface TodoItemProps {
   todo: Todo;
-  onToggleTodo: (id: string, completed: boolean) => void;
+  onToggleTodo: (id: string) => void;
   onDeleteTodo: (id: string) => void;
   showNotification: (
     message: string,
@@ -33,7 +33,7 @@ export default function TodoItem({
           id={`todo-${todo.id}`}
           checked={todo.completed}
           onChange={(e) => {
-            onToggleTodo(todo.id, e.target.checked);
+            onToggleTodo(todo.id);
             if (e.target.checked && !todo.completed) {
               showNotification(`Completed: ${todo.title}`, "completed");
             }

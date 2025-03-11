@@ -11,13 +11,14 @@ import Notifications from "./components/Notifications";
 interface SimpleToDoProps {
   todos: Todo[];
   onAddTodo: (title: string) => void;
-  onToggleTodo: (id: string, completed: boolean) => void;
+  onToggleTodo: (id: string) => void;
   onDeleteTodo: (id: string) => void;
   notifications: Notification[];
   showNotification: (
     message: string,
     type: "added" | "completed" | "deleted"
   ) => void;
+  isLoading: boolean;
 }
 
 export default function SimpleToDo({
@@ -27,6 +28,7 @@ export default function SimpleToDo({
   onDeleteTodo,
   notifications,
   showNotification,
+  isLoading,
 }: SimpleToDoProps) {
   const [selectedFilter, setSelectedFilter] = useState<
     "All" | "Done" | "Undone"
@@ -53,6 +55,7 @@ export default function SimpleToDo({
         onToggleTodo={onToggleTodo}
         onDeleteTodo={onDeleteTodo}
         showNotification={showNotification}
+        isLoading={isLoading}
       />
 
       <Notifications notifications={notifications} />

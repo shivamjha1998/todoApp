@@ -449,9 +449,12 @@ body {
   margin-left: 1rem;
 }
 
-/* Add these media queries at the end of your CSS */
+.loading-text {
+  font-weight: lighter;
+  text-align: center;
+  padding: 1rem;
+}
 
-/* Tablet/Landscape Mobile (768px) */
 @media (max-width: 768px) {
   .app-card {
     padding: 1rem 1.5rem;

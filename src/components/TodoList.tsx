@@ -4,12 +4,13 @@ import TodoItem from "./TodoItem";
 interface TodoListProps {
   todos: Todo[];
   selectedFilter: "All" | "Done" | "Undone";
-  onToggleTodo: (id: string, completed: boolean) => void;
+  onToggleTodo: (id: string) => void;
   onDeleteTodo: (id: string) => void;
   showNotification: (
     message: string,
     type: "added" | "completed" | "deleted"
   ) => void;
+  isLoading: boolean;
 }
 
 export default function TodoList({
@@ -18,6 +19,7 @@ export default function TodoList({
   onToggleTodo,
   onDeleteTodo,
   showNotification,
+  isLoading,
 }: TodoListProps) {
   const filteredTodos = todos.filter((todo) => {
     if (selectedFilter === "Done") return todo.completed;
@@ -27,15 +29,19 @@ export default function TodoList({
 
   return (
     <ul className="list">
-      {filteredTodos.map((todo) => (
-        <TodoItem
-          key={todo.id}
-          todo={todo}
-          onToggleTodo={onToggleTodo}
-          onDeleteTodo={onDeleteTodo}
-          showNotification={showNotification}
-        />
-      ))}
+      {isLoading ? (
+        <div className="loading-text">Loading...</div>
+      ) : (
+        filteredTodos.map((todo) => (
+          <TodoItem
+            key={todo.id}
+            todo={todo}
+            onToggleTodo={onToggleTodo}
+            onDeleteTodo={onDeleteTodo}
+            showNotification={showNotification}
+          />
+        ))
+      )}
     </ul>
   );
 }

@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SimpleToDo from "./SimpleToDo";
 import GamifiedView from "./GamifiedView";
 import "./styles/styles.css";
+import { api, validateUsername } from "./api";
 
 export interface Todo {
   id: string;
@@ -23,41 +24,93 @@ export default function App() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [showGame, setShowGame] = useState<boolean>(false);
   const [minimized, setMinimized] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  function addTodo(title: string) {
-    const newTodo = {
-      id: crypto.randomUUID(),
-      title,
-      completed: false,
-      birdIndex: Math.floor(Math.random() * 4),
-      positionX: Math.random() * 35 + 25,
-      positionY: Math.random() * 60 + 20,
-    };
-    setTodos((current) => [...current, newTodo]);
-    showNotification(`Added: ${title}`, "added");
+  const [username, setUsername] = useState("shivam");
+
+  useEffect(() => {
+    if (!validateUsername(username)) {
+      console.error("Invalid username");
+      return;
+    }
+    loadTodos(username);
+  }, [username]);
+
+  async function loadTodos(user: string) {
+    setLoading(true);
+    const response = await api.listTodos(user);
+    if (response.error) {
+      showNotification(response.error, "deleted");
+      return;
+    }
+    if (response.data) {
+      const mapped = response.data.map((apiTodo) => ({
+        id: apiTodo._id,
+        title: apiTodo.text,
+        completed: apiTodo.isDone,
+        birdIndex: Math.floor(Math.random() * 4),
+        positionX: Math.random() * 35 + 25,
+        positionY: Math.random() * 60 + 20,
+      }));
+      setTodos(mapped);
+      setLoading(false);
+    }
   }
 
-  function toggleTodo(id: string, completed: boolean) {
-    setTodos((current) =>
-      current.map((todo) => (todo.id === id ? { ...todo, completed } : todo))
-    );
+  async function addTodo(title: string) {
+    const response = await api.createTodo(username, title);
+    if (response.error) {
+      showNotification(`Failed to create todo: ${response.error}`, "deleted");
+      return;
+    }
+    if (response.data) {
+      const newTodo: Todo = {
+        id: response.data._id,
+        title: response.data.text,
+        completed: response.data.isDone,
+        birdIndex: Math.floor(Math.random() * 4),
+        positionX: Math.random() * 35 + 25,
+        positionY: Math.random() * 60 + 20,
+      };
+      setTodos((prev) => [...prev, newTodo]);
+      showNotification(`Added: ${title}`, "added");
+    }
   }
 
-  function deleteTodo(id: string) {
-    const deletedTodo = todos.find((todo) => todo.id === id);
-    if (!deletedTodo) return;
+  async function toggleTodo(id: string) {
+    const response = await api.toggleTodo(username, id);
+    if (response.error) {
+      showNotification(`Failed to toggle todo: ${response.error}`, "deleted");
+      return;
+    }
+    if (response.data) {
+      const updatedDone = response.data.isDone;
+      setTodos((prev) =>
+        prev.map((todo) =>
+          todo.id === response.data?._id
+            ? { ...todo, completed: updatedDone }
+            : todo
+        )
+      );
+    }
+  }
 
-    const isConfirmed = window.confirm(
-      `Are you sure you want to delete: ${deletedTodo.title}?`
-    );
-
-    if (isConfirmed) {
-      setTodos((currentTodos) => {
-        return currentTodos.filter((todo) => todo.id !== id);
-      });
+  async function deleteTodo(id: string) {
+    const toDelete = todos.find((t) => t.id === id);
+    if (toDelete) {
+      const isConfirmed = window.confirm(
+        `Are you sure you want to delete: ${toDelete.title}?`
+      );
+      if (!isConfirmed) return;
     }
 
-    showNotification(`Deleted: ${deletedTodo.title}`, "deleted");
+    const response = await api.deleteTodo(username, id);
+    if (response.error) {
+      showNotification(`Failed to delete todo: ${response.error}`, "deleted");
+      return;
+    }
+    setTodos((prev) => prev.filter((todo) => todo.id !== id));
+    showNotification(`Deleted: ${toDelete?.title}`, "deleted");
   }
 
   function showNotification(
@@ -112,6 +165,7 @@ export default function App() {
           onDeleteTodo={deleteTodo}
           notifications={notifications}
           showNotification={showNotification}
+          isLoading={loading}
         />
       </div>
       <div className="game-button">
