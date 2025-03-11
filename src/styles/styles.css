@@ -359,7 +359,6 @@ body {
   stroke-linecap: round;
 }
 
-/* Animate checkbox */
 .todo__line,
 .todo__box,
 .todo__check {
@@ -518,6 +517,11 @@ body {
   .btn {
     padding: 0.8em;
     font-size: 0.85rem;
+  }
+
+  .inside-button {
+    right: 0.5rem;
+    padding: 0 0.8rem;
   }
 
   .todo__icon {
