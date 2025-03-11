@@ -1,10 +1,10 @@
 import { Todo } from "./App";
 import "./styles/Gameified.css";
 
-import Bird1 from "./assets/001.svg";
-import Bird2 from "./assets/002.svg";
-import Bird3 from "./assets/003.svg";
-import Bird4 from "./assets/004.svg";
+import Bird1 from "./assets/bird1.svg";
+import Bird2 from "./assets/bird2.svg";
+import Bird3 from "./assets/bird3.svg";
+import Bird4 from "./assets/bird4.svg";
 
 import TreeSVG from "./assets/tree.svg";
 
