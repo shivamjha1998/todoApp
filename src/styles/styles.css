@@ -297,9 +297,8 @@ body {
   background: #f5f5f5;
 }
 
-/* Define CSS variable */
 :root {
-  --duration: 0.8s; /* ✅ Equivalent to @duration in SCSS */
+  --duration: 0.8s;
 }
 
 .todo-list {
@@ -381,7 +380,6 @@ body {
   animation: none var(--duration) linear;
 }
 
-/* Checkbox explosion animation */
 @keyframes explode {
   30% {
     stroke-width: 3;
@@ -418,7 +416,6 @@ body {
   animation-duration: calc(var(--duration) * 0.7);
 }
 
-/* Checked state animations */
 .todo__state:checked ~ .todo__text {
   transition-delay: 0s;
   color: #5ebec1;
@@ -497,7 +494,6 @@ body {
   }
 }
 
-/* Mobile (480px) */
 @media (max-width: 480px) {
   .app-card {
     min-width: unset;
@@ -563,7 +559,6 @@ body {
   }
 }
 
-/* Small Mobile (360px) */
 @media (max-width: 360px) {
   .app-card {
     min-width: unset;
