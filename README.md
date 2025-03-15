@@ -69,7 +69,7 @@ This approach aims to **motivate** users through lively feedback and interactive
 
     ```bash
     git clone [https://github.com/shivamjha1998/todoApp](https://github.com/shivamjha1998/todoApp)
-    cd gamified-todo-app
+    cd todoApp
     ```
 
 2.  **Install Dependencies**
